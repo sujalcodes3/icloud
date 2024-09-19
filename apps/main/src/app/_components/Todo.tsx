@@ -31,7 +31,9 @@ export default function Todo(): React.ReactNode {
         />
         <button type="submit" className={`m-3 p-2 text-white hover:bg-blue-300 rounded-lg bg-blue-400`}>Add Note</button>
       </form>
-      {JSON.stringify(getTodos.data)}
+      <div className={`text-white`}>
+          {JSON.stringify(getTodos.data)}
+     </div>
     </div>
   );
 }

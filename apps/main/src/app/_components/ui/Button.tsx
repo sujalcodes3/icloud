@@ -1,9 +1,12 @@
+"use client";
 export default function Button({
   type,
   text,
+  onClick
 }: {
   type: string;
   text: string;
+  onClick?: () => void
 }): React.ReactNode {
   return (
     <button
@@ -13,7 +16,9 @@ export default function Button({
           : type === "secondary"
             ? "rounded border-2 border-blue-500 bg-transparent px-3 py-1 text-blue-500 hover:text-slate-50 hover:bg-blue-500 transition-colors duration-200 text-semibold text-xl"
             : ""
-      }`}
+      }`
+      }
+      onClick={onClick}
     >
       {text}
     </button>

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { trpc } from "./client";
 import { httpBatchLink } from "@trpc/client";
 
-export default function Provider({
+export default function TrpcProvider({
     children,
 }: {
     children: Readonly<React.ReactNode>;

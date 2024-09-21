@@ -8,17 +8,15 @@ export default function HomeForm(): React.ReactNode {
             className={`h-max w-max flex flex-col items-center gap-6 p-10 bg-white drop-shadow-md rounded-lg`}
         >
             <p className={`text-6xl text-slate-700 font-bold`}>iCloud</p>
-            <Link href={`sign-in`}>
-                <Button
-                    text="Sign up using Github"
-                    type="primary"
-                    onClick={async () => {
-                        await signIn("github", {
-                            redirectTo: "/dashboard",
-                        });
-                    }}
-                />
-            </Link>
+            <Button
+                text="Sign up using Github"
+                type="primary"
+                onClick={async () => {
+                    await signIn("github", {
+                        redirectTo: "/dashboard",
+                    });
+                }}
+            />
             <div className={`flex flex-col gap-2 items-center select-none`}>
                 <span className={`text-md text-slate-500`}>
                     Already have an account?

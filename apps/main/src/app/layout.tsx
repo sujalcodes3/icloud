@@ -30,15 +30,15 @@ export default function RootLayout({
             <body
                 className={`${geistSans.variable} ${geistMono.variable} antialiased`}
             >
-                <AuthProvider>
-                    <TrpcProvider>
+                <TrpcProvider>
+                    <AuthProvider>
                         <div
                             className={`h-screen w-screen flex items-center justify-center`}
                         >
                             {children}
                         </div>
-                    </TrpcProvider>
-                </AuthProvider>
+                    </AuthProvider>
+                </TrpcProvider>
             </body>
         </html>
     );

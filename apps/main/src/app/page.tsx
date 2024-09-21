@@ -1,20 +1,12 @@
-"use client";
-import { useSession } from "next-auth/react";
-import { redirect } from "next/navigation";
+//"use client";
+//import { redirect } from "next/navigation";
+//import HomeForm from "./_components/HomeForm";
+//import { signOut, useSession } from "next-auth/react";
 
-import HomeForm from "./_components/HomeForm";
-
-export default function HomePage(): React.ReactNode {
-    const { data: session, status } = useSession();
-    if(status !== "authenticated") {
-        redirect("/sign-in");
-    } else { 
-        redirect("/dashboard");
-    }
-    return (
-        <div className={``}>
-            This is the home page
-            {/*<HomeForm />*/}
-        </div>
-    );
+export default function HomePage() {
+  return (
+    <div className={``}>
+         hello world
+    </div>
+  );
 }

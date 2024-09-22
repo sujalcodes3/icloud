@@ -14,7 +14,7 @@ export default function TrpcProvider({
         trpc.createClient({
             links: [
                 httpBatchLink({
-                    url: `${process.env.AUTH_URL}/api/trpc`,
+                    url: "https/icloud-sujalcodes3.vercel.app/api/trpc",
                 }),
             ],
         }),

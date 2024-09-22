@@ -5,3 +5,9 @@ export type Note = {
     createdAt: string | null;
     updatedAt: string | null;
 };
+
+export type TFile = {
+    id: number | null;
+    url: string | null;
+    title: string | null;
+};

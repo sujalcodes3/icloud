@@ -6,6 +6,7 @@ import {
   primaryKey,
   integer,
   serial,
+  pgEnum,
 } from "drizzle-orm/pg-core";
 import type { AdapterAccountType } from "next-auth/adapters";
 
@@ -91,6 +92,25 @@ export const notes = pgTable("notes", {
   author: text("author").references(() => users.id),
   data: text("data"),
 
+  createdAt: timestamp("created_at", {
+    precision: 6,
+    withTimezone: true,
+  }).defaultNow(),
+
+  updatedAt: timestamp("updated_at", {
+    precision: 6,
+    withTimezone: true,
+  }).defaultNow(),
+});
+
+export const fileTypeEnum = pgEnum("file_type", ["pdf", "image"]);
+
+export const entities = pgTable("entities", {
+  id: serial("id").primaryKey().notNull(),
+  title: text("title"),
+  uploadedBy: text("uploaded_by").references(() => users.id),
+  url: text("url"),
+  type: fileTypeEnum("type"),
   createdAt: timestamp("created_at", {
     precision: 6,
     withTimezone: true,

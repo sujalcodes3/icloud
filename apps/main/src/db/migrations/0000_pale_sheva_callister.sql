@@ -1,3 +1,9 @@
+DO $$ BEGIN
+ CREATE TYPE "public"."file_type" AS ENUM('pdf', 'image');
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "account" (
 	"userId" text NOT NULL,
 	"type" text NOT NULL,
@@ -26,9 +32,19 @@ CREATE TABLE IF NOT EXISTS "authenticator" (
 	CONSTRAINT "authenticator_credentialID_unique" UNIQUE("credentialID")
 );
 --> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "entities" (
+	"id" serial PRIMARY KEY NOT NULL,
+	"title" text,
+	"uploaded_by" text,
+	"url" text,
+	"type" "file_type",
+	"created_at" timestamp (6) with time zone DEFAULT now(),
+	"updated_at" timestamp (6) with time zone DEFAULT now()
+);
+--> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "notes" (
 	"id" serial PRIMARY KEY NOT NULL,
-	"author" text NOT NULL,
+	"author" text,
 	"data" text,
 	"created_at" timestamp (6) with time zone DEFAULT now(),
 	"updated_at" timestamp (6) with time zone DEFAULT now()
@@ -64,6 +80,18 @@ END $$;
 --> statement-breakpoint
 DO $$ BEGIN
  ALTER TABLE "authenticator" ADD CONSTRAINT "authenticator_userId_user_id_fk" FOREIGN KEY ("userId") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "entities" ADD CONSTRAINT "entities_uploaded_by_user_id_fk" FOREIGN KEY ("uploaded_by") REFERENCES "public"."user"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "notes" ADD CONSTRAINT "notes_author_user_id_fk" FOREIGN KEY ("author") REFERENCES "public"."user"("id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;

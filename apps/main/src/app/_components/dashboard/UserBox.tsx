@@ -11,9 +11,9 @@ export default function UserBox({
     session: Session;
 }): React.ReactNode {
     return (
-        <DashCardWrapper className={``}>
+        <DashCardWrapper className={`h-1/3 md:h-full md:w-1/3`}>
             <div
-                className={`h-3/4 600 flex flex-col justify-evenly rounded-t-2xl px-10`}
+                className={`h-3/4 flex flex-col justify-evenly rounded-t-2xl px-10`}
             >
                 <div className={`rounded-full h-20 w-20 overflow-hidden relative`}>
                     <Image

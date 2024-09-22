@@ -3,8 +3,13 @@ import Image from "next/image";
 import DashCardWrapper from "../ui/DashCardWrapper";
 
 import Logo from "../../../../public/photos-logo.webp";
+import { Session } from "next-auth";
 
-export default function PhotosBox(): React.ReactNode {
+export default function PhotosBox({
+    session,
+}: {
+    session: Session;
+}): React.ReactNode {
     return (
         <DashCardWrapper className={`md:col-span-2`}>
             <nav className={`flex justify-start items-center h-1/5 gap-4 px-4`}>

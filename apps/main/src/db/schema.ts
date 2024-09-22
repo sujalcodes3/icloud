@@ -7,8 +7,6 @@ import {
   integer,
   serial,
 } from "drizzle-orm/pg-core";
-import postgres from "postgres";
-import { drizzle } from "drizzle-orm/postgres-js";
 import type { AdapterAccountType } from "next-auth/adapters";
 
 export const users = pgTable("user", {
@@ -90,8 +88,7 @@ export const authenticators = pgTable(
 
 export const notes = pgTable("notes", {
   id: serial("id").primaryKey().notNull(),
-  //author: integer("author_id").references(() => user.id),
-  author: text("author").notNull(),
+  author: text("author").references(() => users.id),
   data: text("data"),
 
   createdAt: timestamp("created_at", {
@@ -105,4 +102,4 @@ export const notes = pgTable("notes", {
   }).defaultNow(),
 });
 
-export type Post = typeof notes.$inferSelect;
+export type Note = typeof notes.$inferSelect;

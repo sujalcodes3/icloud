@@ -1,16 +1,11 @@
-"use client";
-//import { useSession } from "next-auth/react";
+"use server";
 import Dashboard from "../_components/dashboard/Dashboard";
-//import { redirect } from "next/navigation";
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
 
-export default function DashboardPage(): React.ReactNode {
-    //const { data: session, status } = useSession();
-    //if (status === "unauthenticated") {
-    //    redirect("/sign-in");
-    //}
-    return (
-        <>
-            <Dashboard />
-        </>
-    );
+export default async function DashboardPage() {
+    const session = await auth();
+    if (!session) redirect("/");
+    console.log("from dashboarPage: ", session);
+    return <Dashboard session={session} />;
 }

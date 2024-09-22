@@ -1,13 +1,15 @@
+"use client";
 import Image from "next/image";
 import { signOut, useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import DashCardWrapper from "../ui/DashCardWrapper";
+import { Session } from "next-auth";
 
-export default function UserBox(): React.ReactNode {
-    const { data: session, status } = useSession();
-    if(status === "unauthenticated") {
-        redirect("/sign-in");
-    }
+export default function UserBox({
+    session,
+}: {
+    session: Session;
+}): React.ReactNode {
     return (
         <DashCardWrapper className={``}>
             <div
@@ -16,16 +18,16 @@ export default function UserBox(): React.ReactNode {
                 <div className={`rounded-full h-20 w-20 overflow-hidden relative`}>
                     <Image
                         className="object-cover"
-                        src={session?.user?.image!}
+                        src={session.user.image!}
                         quality={100}
-                        alt={session?.user?.name!}
+                        alt={session.user.name!}
                         priority={true}
                         fill={true}
                     />
                 </div>
                 <div className={`h-2/5`}>
                     <p className={`text-slate-900 text-3xl font-bold`}>
-                        {session?.user?.name}
+                        {session.user.name}
                     </p>
                 </div>
             </div>
@@ -36,7 +38,7 @@ export default function UserBox(): React.ReactNode {
                 <button
                     className={`text-red-500 font-semibold text-xl`}
                     onClick={async () => {
-                        signOut({ redirectTo: "/api/auth/signin" });
+                        await signOut({ redirectTo: "/api/auth/signin" });
                     }}
                 >
                     Logout

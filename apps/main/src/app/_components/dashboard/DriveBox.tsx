@@ -3,8 +3,13 @@ import DashCardWrapper from "../ui/DashCardWrapper";
 
 import Logo from "../../../../public/icloud-logo.webp";
 import { Clock } from "lucide-react";
+import { Session } from "next-auth";
 
-export default function DriveBox(): React.ReactNode {
+export default function DriveBox({
+    session,
+}: {
+    session: Session;
+}): React.ReactNode {
     return (
         <DashCardWrapper className={`md:col-span-2`}>
             <nav className={`flex justify-start items-center h-1/5 gap-4 px-4`}>

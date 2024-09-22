@@ -1,21 +1,32 @@
 "use client";
+import { useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 
 import { Folder, FilePlus2 } from "lucide-react";
 
 import DashCardWrapper from "../ui/DashCardWrapper";
+import AddNoteDialog from "./modals/AddNote";
+import NoteInfo from "@/app/_components/ui/notes/Note";
+
+import { type Note } from "@/types/types";
 
 import Logo from "../../../../public/notes-logo.webp";
-import { useState } from "react";
-import AddNoteDialog from "./modals/AddNote";
+import { trpc } from "@/app/_trpc/client";
+import { Session } from "next-auth";
 
-export default function NotesBox(): React.ReactNode {
+export default function NotesBox({
+    session,
+}: {
+    session: Session;
+}): React.ReactNode {
     const [addNoteOpen, setAddNoteOpen] = useState(false);
+    const getNotes = trpc.getNotesByUser.useQuery({ id: session.user.id });
     return (
         <>
             <DashCardWrapper>
-                <nav className={`flex justify-between items-center h-1/5 px-4`}>
+                <nav
+                    className={`flex justify-between items-center h-1/5 px-4 rounded-t-2xl`}
+                >
                     <span className={`flex gap-4`}>
                         <Image alt={`photos logos`} src={Logo} height={50} width={50} />
                         <div className={`flex flex-col text-slate-900`}>
@@ -34,11 +45,20 @@ export default function NotesBox(): React.ReactNode {
                         <FilePlus2 color="#facc15" size={30} />
                     </button>
                 </nav>
-                <section
-                    className={`rounded-b-2xl h-4/5 bg-white bg-opacity-75`}
-                ></section>
+                <section className={`overflow-y-auto rounded-b-2xl h-4/5 bg-white`}>
+                    {getNotes.data?.length === 0
+                        ? "No Notes"
+                        : getNotes.data?.map((note: Note, idx: number) => (
+                            <NoteInfo key={idx} data={note} refetchHook= {getNotes}/>
+                        ))}
+                </section>
             </DashCardWrapper>
-            <AddNoteDialog isOpen={addNoteOpen} setIsOpen={setAddNoteOpen} />
+            <AddNoteDialog
+                onAddDone={getNotes}
+                isOpen={addNoteOpen}
+                setIsOpen={setAddNoteOpen}
+                session={session}
+            />
         </>
     );
 }

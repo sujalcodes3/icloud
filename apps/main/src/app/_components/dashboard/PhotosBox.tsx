@@ -44,7 +44,12 @@ export default function PhotosBox({
                 >
                     {getImages.data !== undefined && getImages.data.length > 0
                         ? getImages.data?.map((ent, idx) => (
-                            <ImageInfo image={ent} key={idx} refetchPoint={getImages} />
+                            <ImageInfo
+                                session={session}
+                                image={ent}
+                                key={idx}
+                                refetchPoint={getImages}
+                            />
                         ))
                         : "No Photos"}
                 </section>

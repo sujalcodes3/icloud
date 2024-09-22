@@ -5,15 +5,34 @@ import { Trash2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import PdfLogo from "../../../../public/pdflogo.jpg";
+import { trpc } from "@/app/_trpc/client";
+import { Session } from "next-auth";
 export default function FileInfo({
     file,
     refetchPoint,
+    session,
 }: {
     file: TFile;
     refetchPoint: any;
+    session: Session;
 }): React.ReactNode {
     const [deleteLoad, setDeleteLoad] = useState<boolean>(false);
-    const deleteHandler = () => { };
+    const deleteFile = trpc.deleteFile.useMutation({
+        onSettled: refetchPoint.refetch(),
+    });
+    const deleteHandler = async () => {
+        setDeleteLoad(true);
+        try {
+            await deleteFile.mutateAsync({
+                userId: session.user.id,
+                fileId: file.id!,
+            });
+        } catch (err) {
+            throw new Error("while deleting pdfs");
+        } finally { 
+            setDeleteLoad(false);
+        }
+    };
 
     return (
         <div

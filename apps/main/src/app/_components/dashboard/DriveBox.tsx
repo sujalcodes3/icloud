@@ -39,10 +39,17 @@ export default function DriveBox({
                         <CirclePlus color="#4987EA" />
                     </button>
                 </nav>
-                <section className={`rounded-b-2xl px-6 py-3 h-4/5 bg-white bg-opacity-75`}>
+                <section
+                    className={`rounded-b-2xl px-6 py-3 h-4/5 bg-white bg-opacity-75`}
+                >
                     {getPdfs.data !== undefined && getPdfs.data.length > 0
                         ? getPdfs.data?.map((ent, idx) => (
-                            <FileInfo file={ent} key={idx} refetchPoint={getPdfs} />
+                            <FileInfo
+                                file={ent}
+                                key={idx}
+                                refetchPoint={getPdfs}
+                                session={session}
+                            />
                         ))
                         : "No Photos"}
                 </section>
